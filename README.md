@@ -2,39 +2,51 @@
 
 > **Instantly verify claims on any webpage using AI + live web search.**
 
-![VerifAI Banner](extension/public/img1.png)
-
 ---
 
 ## What is VerifAI?
 
-VerifAI is a Chrome extension that lets you fact-check any claim or headline on the web in real time. Click the extension icon, hit **Verify This Page**, and within seconds you get a verdict backed by live sources — powered by Google Gemini and Tavily Search.
+VerifAI is a Chrome extension that fact-checks any claim, headline, or social post in real time. Click the extension, hit **Verify This Page**, and within seconds you get a verdict backed by live sources — powered by **Google Gemini 2.5 Flash** and **Tavily Search**.
 
-No more manually Googling headlines. No more falling for misinformation. VerifAI does the work for you.
-
----
-
-## Features
-
-- 🔍 **One-click fact-checking** — verify any page instantly from the popup
-- 🤖 **AI-powered analysis** — uses Google Gemini 2.5 Flash to reason over claims
-- 🌐 **Live web search** — Tavily Search finds real-time sources to back the verdict
-- ✅ **Clear verdicts** — TRUE / FALSE / MISLEADING / UNVERIFIED with explanations
-- 📰 **Source links** — see exactly which sources were used
-- ⏱️ **Progress indicators** — live timer and status messages so it never feels frozen
-- ❌ **Cancel anytime** — cancel mid-analysis or go back with one click
+No more manually Googling headlines. No more falling for misinformation.
 
 ---
 
 ## Screenshots
 
 <p align="center">
-  <img src="extension/public/img1.png" width="280" alt="VerifAI Popup"/>
-  &nbsp;&nbsp;
-  <img src="extension/public/img2.png" width="280" alt="VerifAI Analyzing"/>
-  &nbsp;&nbsp;
-  <img src="extension/public/img3.png" width="280" alt="VerifAI Result"/>
+  <img src="extension/public/img1.png" width="30%" alt="Home"/>
+  &nbsp;
+  <img src="extension/public/img2.png" width="30%" alt="Analyzing"/>
+  &nbsp;
+  <img src="extension/public/img3.png" width="30%" alt="Result"/>
 </p>
+<p align="center">
+  <em>Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Analyzing &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Result</em>
+</p>
+
+---
+
+## How It Works
+
+1. **Screenshot** — captures the visible tab as a JPEG
+2. **Extract** — Gemini 2.5 Flash identifies the core claim from the image
+3. **Search** — Tavily searches the live web for relevant evidence (6 sources)
+4. **Verify** — Gemini cross-references the claim against the evidence
+5. **Verdict** — returns `VERIFIED` or `MISINFORMATION` with confidence score, summary, and detailed analysis
+
+---
+
+## Features
+
+- 🔍 **One-click fact-checking** — works on any webpage, article, or social post
+- 🤖 **Gemini 2.5 Flash** — extracts claims and verifies against real evidence
+- 🌐 **Live web search** — Tavily finds real-time sources, not cached data
+- ✅ **Clear verdicts** — VERIFIED / MISINFORMATION with confidence score
+- 📋 **Detailed analysis** — full reasoning with numbered source citations [1], [2], [3]
+- ⏱️ **Progress indicators** — live timer + status messages so it never feels frozen
+- ❌ **Cancel anytime** — cancel mid-analysis or go back with one click
+- 🕒 **History** — last 50 verifications saved locally
 
 ---
 
@@ -42,11 +54,10 @@ No more manually Googling headlines. No more falling for misinformation. VerifAI
 
 | Layer | Technology |
 |---|---|
-| Extension | React + TypeScript + Vite |
-| Backend | Cloudflare Workers |
+| Extension UI | React + TypeScript + Vite |
+| Backend | Cloudflare Workers (Hono) |
 | AI Model | Google Gemini 2.5 Flash |
 | Web Search | Tavily Search API |
-| Styling | CSS Modules |
 | Package Manager | pnpm |
 
 ---
@@ -55,16 +66,18 @@ No more manually Googling headlines. No more falling for misinformation. VerifAI
 
 ```
 VerifAI/
-├── extension/               # Chrome extension (React + Vite)
+├── extension/                  # Chrome extension
 │   ├── src/
-│   │   ├── popup/           # Main popup UI
-│   │   └── background/      # Service worker
+│   │   ├── popup/              # React UI (Popup.tsx)
+│   │   ├── background/         # Service worker (background.ts)
+│   │   ├── api.ts              # API calls
+│   │   └── types.ts            # Shared TypeScript types
 │   ├── manifest.json
 │   └── vite.config.ts
 │
-└── backend/                 # Cloudflare Workers API
+└── backend/                    # Cloudflare Workers API
     ├── src/
-    │   └── index.ts         # Main worker — Gemini + Tavily logic
+    │   └── index.ts            # Hono app — Gemini + Tavily logic
     └── wrangler.toml
 ```
 
@@ -94,10 +107,10 @@ cd backend
 pnpm install
 ```
 
-Create a `.dev.vars` file in the `backend/` folder:
+Create a `.dev.vars` file inside `backend/`:
 
 ```
-GEMINI_API_KEY=your_gemini_api_key_here
+GOOGLE_API_KEY=your_gemini_api_key_here
 TAVILY_API_KEY=your_tavily_api_key_here
 ```
 
@@ -128,45 +141,47 @@ pnpm build
 
 ## Usage
 
-1. Navigate to any webpage with a news article or claim
+1. Navigate to any webpage with a news article, headline, or social post
 2. Click the **VerifAI** icon in your Chrome toolbar
-3. Hit **VERIFY THIS PAGE**
-4. Wait 20–35 seconds while VerifAI searches and analyzes
-5. Read the verdict and check the sources
+3. Hit **◉ VERIFY THIS PAGE**
+4. Wait 20–35 seconds while VerifAI captures, searches, and analyzes
+5. Read the verdict, summary, and detailed analysis with sources
 
 ---
 
-## Deployment
+## API Keys — All Free Tier
 
-To deploy the backend to Cloudflare Workers:
+| Service | Get Key |
+|---|---|
+| Google Gemini | [aistudio.google.com](https://aistudio.google.com) |
+| Tavily Search | [tavily.com](https://tavily.com) |
+| Cloudflare Workers | [cloudflare.com](https://cloudflare.com) |
+
+---
+
+## Deployment to Cloudflare
 
 ```bash
 cd backend
-wrangler secret put GEMINI_API_KEY
+wrangler secret put GOOGLE_API_KEY
 wrangler secret put TAVILY_API_KEY
 wrangler deploy
 ```
 
-Then update the API endpoint in the extension to point to your deployed worker URL.
-
----
-
-## API Keys
-
-| Service | Free Tier | Get Key |
-|---|---|---|
-| Google Gemini | ✅ Yes | [aistudio.google.com](https://aistudio.google.com) |
-| Tavily Search | ✅ Yes | [tavily.com](https://tavily.com) |
-| Cloudflare Workers | ✅ Yes | [cloudflare.com](https://cloudflare.com) |
+Then update `API_BASE_URL` in `extension/src/api.ts` and `background.ts` to point to your deployed worker URL.
 
 ---
 
 ## Contributing
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change.
+Pull requests are welcome! For major changes, please open an issue first.
 
 ---
 
+## License
+
+[MIT](LICENSE)
+
 ---
 
-<p align="center">Built with ❤️ to fight misinformation</p>
+<p align="center">Built to fight misinformation, one claim at a time.</p>
