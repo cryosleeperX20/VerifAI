@@ -14,16 +14,13 @@ No more manually Googling headlines. No more falling for misinformation.
 
 ## Screenshots
 
-<p align="center">
-  <img src="extension/public/img1.png" width="30%" alt="Home"/>
-  &nbsp;
-  <img src="extension/public/img2.png" width="30%" alt="Analyzing"/>
-  &nbsp;
-  <img src="extension/public/img3.png" width="30%" alt="Result"/>
-</p>
-<p align="center">
-  <em>Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Analyzing &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Result</em>
-</p>
+<table align="center">
+  <tr>
+    <td align="center" valign="top"><img src="extension/public/img2.png" width="220" alt="Home"/><br/><sub><b>Home</b></sub></td>
+    <td align="center" valign="top"><img src="extension/public/img3.png" width="220" alt="Capturing"/><br/><sub><b>Capturing</b></sub></td>
+    <td align="center" valign="top"><img src="extension/public/img1.png" width="220" alt="Result"/><br/><sub><b>Result</b></sub></td>
+  </tr>
+</table>
 
 ---
 
