@@ -1,0 +1,4 @@
+name = "verifai-backend"
+main = "src/index.ts"
+compatibility_date = "2025-10-11"
+compatibility_flags = ["nodejs_compat"]
