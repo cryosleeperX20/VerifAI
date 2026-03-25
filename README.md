@@ -174,11 +174,3 @@ Then update `API_BASE_URL` in `extension/src/api.ts` and `background.ts` to poin
 Pull requests are welcome! For major changes, please open an issue first.
 
 ---
-
-## License
-
-[MIT](LICENSE)
-
----
-
-<p align="center">Built to fight misinformation, one claim at a time.</p>
